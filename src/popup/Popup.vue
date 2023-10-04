@@ -27,7 +27,7 @@ watch(kopasEnabledState, async (value) => {
     <div
       class="bg-[#000D81] flex flex-col items-center justify-center p-6 w-full"
     >
-      <img src="../assets/icon-512.png" alt="Kopas Logo" height="100" width="100">
+      <img src="../../extension/assets/icon-512.png" alt="Kopas Logo" height="100" width="100">
       <p class="text-white">
         Copy Paste Tool
       </p>
