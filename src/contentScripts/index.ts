@@ -4,9 +4,32 @@ import { createApp } from 'vue'
 import App from './views/App.vue'
 import { setupApp } from '~/logic/common-setup'
 
+const kopasHandler = () => {
+  let selection = window.getSelection()?.toString()
+  setTimeout(() => {
+    if (!selection || selection.length === 0)
+      return
+
+    if (selection.startsWith('Rp')) {
+      selection = selection.split('Rp').join('').split('.').join('')
+      if (selection.includes(',00'))
+        selection = selection.split(',00').join('')
+      selection = selection.trim()
+    }
+    window.navigator.clipboard.writeText(selection)
+  }, 300)
+}
+
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
 (() => {
-  console.info('[vitesse-webext] Hello world from content script')
+  window.removeEventListener('mouseup', kopasHandler)
+  onMessage('toggle-kopas', ({ data }) => {
+    window.removeEventListener('mouseup', kopasHandler)
+    if (data.enabled) {
+      window.addEventListener('mouseup', kopasHandler)
+      console.log('[kopas] kopas event handler registered.')
+    }
+  })
 
   // communication example: send previous tab title from background page
   onMessage('tab-prev', ({ data }) => {
